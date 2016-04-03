@@ -31,3 +31,17 @@ f <- rep(0.1, each = 50)
 f <- x + f - f * x + rnorm(100, sd = 0.5)
 f<- factor(f, labels = c("Group 1", "Group 2"))
 xyplot(y ~ x | f, layout = c(2,1)) # Plot with two panels
+
+
+#Custom Panel Function ad median line
+
+xyplot(y ~ x | f, panel = function(x, y, ...) {
+  panel.xyplot(x,y,...) # first call the default pannel
+  panel.abline(h = median(y), lty = 2) ## add a horizontal line at the median
+})
+
+#Custom Panel Function add Regression line
+xyplot(y ~ x | f, panel = function(x, y, ...) {
+  panel.xyplot(x,y,...) # first call the default pannel
+  panel.lmline(x, y, col =2 ) ## overlay a simple linear regression line
+})
