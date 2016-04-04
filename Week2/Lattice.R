@@ -13,8 +13,13 @@ xyplot(Ozone ~ Wind | Month, data = airquality)
 
 #if we want to print later
 
-p <- xyplot(Ozone ~ Wind | Month, data = airquality, layout = c(5,1))
+p <- xyplot(Ozone ~ Wind | as.factor(Month), data = airquality, layout = c(5,1))
 print(p)
+
+#Check all the names associated with p
+names(p)
+#this checks what the value is for "formula
+p[["formula"]]
 
 #bwplot: box and whiskers plots (boxplot)
 #histogram
