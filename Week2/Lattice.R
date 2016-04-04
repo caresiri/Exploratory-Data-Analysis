@@ -27,7 +27,7 @@ print(p)
 #Lattice Planel Functions
 set.seed(10)
 x <- rnorm(100)
-f <- rep(0.1, each = 50)
+y <- rep(0:1, each = 50)
 f <- x + f - f * x + rnorm(100, sd = 0.5)
 f<- factor(f, labels = c("Group 1", "Group 2"))
 xyplot(y ~ x | f, layout = c(2,1)) # Plot with two panels
