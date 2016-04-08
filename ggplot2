@@ -1,0 +1,38 @@
+#Clustering organizes things that are close in groups
+
+#Hierarchical clustering
+#-aglomerate approach
+#-Find closest two things
+
+#-Requires
+##-A defined sitance
+##-merging approach
+
+#-Produces
+#-A tree showing hwo close thins are to each other
+
+#Distance or similarity
+##- Continuous - euclidean distance
+##Continuopus - correlation similarity
+## Binary - Manhattan diistance
+
+
+#plot2 plots are composed of aesthetics (attributes such as size, shape, color) and geoms (points, lines, and bars), the geometric objects you see on the plot.
+str(mpg)
+qplot(displ,hwy, data = mpg, color = drv)
+qplot(displ, hwy, data = mpg, color=drv, geom = c("point", "smooth"))
+qplot(y = hwy, data = mpg, color = drv)
+
+#Box Plots
+qplot(drv, hwy, data = mpg, geom ="boxplot")
+qplot(drv, hwy, data = mpg, geom ="boxplot", color = manufacturer)
+
+#histograms
+
+qplot(hwy, data = mpg, fill = drv)
+
+#The fourth is the argument facets which will be set equal to the expression . ~ drv which is ggplot2's shorthand for number of rows (to the left of the ~) and number of columns (to the right of the ~). Here the . indicates a single row and drv implies 3, since there are 3 distinct drive factors. Try this now.
+
+qplot(displ, hwy, data = mpg, facets = .~ drv)
+
+qplot( hwy, data = mpg, facets = drv ~ ., binwidth = 2)
