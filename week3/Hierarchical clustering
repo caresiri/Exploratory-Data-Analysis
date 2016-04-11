@@ -1,0 +1,10 @@
+#Hierarchical clustering
+#Swirl Course on hierarchical clustering
+dist(dataFrame)
+#Entry (i,j) indicates the distance between points i and j. Clearly you need only a lower triangular matrix since the distance between points i and j equals that between j and i.
+
+#function which you can call which creates a dendrogram for you. It's called hclust() and takes as an argument the pairwise distance matrix which we looked at before.
+hc <- hclust(distxy)
+plot(hc)
+plot(as.dendrogram(hc))
+abline(h =0.4, col = "blue")
