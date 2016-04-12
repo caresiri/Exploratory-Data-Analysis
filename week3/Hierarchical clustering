@@ -49,3 +49,10 @@ myplclust(hClustering, lab = rep(1:3, each = 4), lab.col = rep(1:3, each = 4))
 
 #Even Prettier Dentograms
 # http://gallery.r-enthusiasts.com/RGraphGallery.php?graph=79
+
+#Heat map function good fo quickly summarizing a lot of data
+dataFrame <- data.frame(x = x, y = y)
+set.seed(143)
+dataMatrix <- as.matrix(dataFrame)[sample(1:12), ]
+heatmap(dataMatrix)
+
