@@ -1,0 +1,34 @@
+"aims to partition the points into k groups such that the sum of squares from points to the assigned cluster centres is minimized."
+
+  
+#  As we said, k-means is a partioning approach which requires that you first guess how many clusters you have (or want). Once you fix this number, you randomly create a "centroid" (a phantom point) for each cluster and assign each point or observation in your dataset to the centroid to which it is closest. Once each point is assigned a centroid, you readjust the centroid's position by making it the average of the points assigned to it.
+
+#  Once you have repositioned the centroids, you must recalculate the distance of the observations to the centroids and reassign any, if
+# necessary, to the centroid closest to them. Again, once the reassignments are done, readjust the positions of the centroids based on the new
+# cluster membership. The process stops once you reach an iteration in which no adjustments are made or when you've reached some predetermined
+# maximum number of iterations.
+
+# So k-means clustering requires some distance metric (say Euclidean), a hypothesized fixed number of clusters, and an initial guess as to
+
+# The coordinates of these points are (1,2), (1.8,1) and (2.5,1.5). We'll add these centroids to the plot of our points. Do this by calling the
+# R command points with 6 arguments. The first 2 are cx and cy, and the third is col set equal to the concatenation of 3 colors, "red",
+# "orange", and "purple". The fourth argument is pch set equal to 3 (a plus sign), the fifth is cex set equal to 2 (expansion of character),
+# and the final is lwd (line width) also set equal to 2.
+
+points(cx, cy, col = c("red", "orange", "purple"), pch = 3, cex = 2, lwd = 2)
+
+#Now that you've gone through an example step by step, you'll be relieved to hear that R provides a command to do all this work for you.
+#Unsurprisingly it's called kmeans and, although it has several parameters, we'll just mention four. These are x, (the numeric matrix of
+#data), centers, iter.max, and nstart. The second of these (centers) can be either a number of clusters or a set of initial centroids. The
+#third, iter.max, specifies the maximum number of iterations to go through, and nstart is the number of random starts you want to try if you
+#specify centers as a number.
+
+kmeans(dataFrame, centers = 3)
+
+#to get iterations of the data
+
+kmobj$iter
+
+plot(x, y, col = kmobj$cluster, pch = 19, cex =2)
+
+points(kmObj$centers, col=c("black","red","green"), pch = 3, cex = 3. lwd = 3)
