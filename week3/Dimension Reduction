@@ -118,3 +118,20 @@ par(mfrow = c(1, 2))
 plot(svd1$d, xlab = "Column", ylab = "Singular value", pch = 19)
 plot(svd1$d^2/sum(svd1$d^2), xlab = "Column", ylab = "Percent of variance explained",
      pch = 19)
+dataMatrix2 <- dataMatrixOrdered
+## Randomly insert some missing data
+dataMatrix2[sample(1:100, size = 40, replace = FALSE)] <- NA
+svd1 <- svd(scale(dataMatrix2)) ## Doesn't work!
+
+#Inputing {impute} (Imputes missing data and averages out data rows close to the missing datal)
+
+library(impute) ## Available from http://bioconductor.org
+dataMatrix2 <- dataMatrixOrdered
+dataMatrix2[sample(1:100,size=40,replace=FALSE)] <- NA
+dataMatrix2 <- impute.knn(dataMatrix2)$data
+svd1 <- svd(scale(dataMatrixOrdered)); svd2 <- svd(scale(dataMatrix2))
+par(mfrow=c(1,2)); plot(svd1$v[,1],pch=19); plot(svd2$v[,1],pch=19)
+getwd()
+load("/Users/carlossiri/Desktop/IMG_2019.jpg")
+image(t(faceData)[, nrow(faceData):1])
+
