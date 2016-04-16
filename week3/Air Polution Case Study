@@ -3,12 +3,82 @@
 setwd("./Desktop") 
 if(!file.exists("./data")){dir.create("./data")} 
 #download two data sets
-pm2009 <- "http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2009.zip" 
+pm1999 <- "http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_1999.zip" 
 pm2012 <- "http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_88101_2012.zip"
-download.file(pm2009,destfile="./data/daily_88101_2009.zip",method="curl") 
+download.file(pm1999,destfile="./data/daily_88101_1999.zip",method="curl") 
 download.file(pm2012,destfile="./data/daily_88101_2012.zip",method="curl") 
 setwd("./data") 
-unzip("daily_88101_2009.zip")
+unzip("daily_88101_1999.zip")
 unzip("daily_88101_2012.zip") 
-setwd("./UCI HAR Dataset") 
 getwd() 
+pm0 <- read.csv("daily_88101_1999.csv", comment.char = "#",na.strings = "")
+pm1 <- read.csv("daily_88101_2012.csv", comment.char = "#",na.strings = "")
+dim(pm0)
+head(pm0)
+#grab PM2.5
+x0 <- pm0$Arithmetic.Mean
+x1 <- pm1$Arithmetic.Mean
+#lets see what it is
+class(x0) #[1] "numeric"
+str(x0)
+str(x1)
+summary(x0)
+summary(x1)
+dim(pm1)
+
+# Lets look at the boxplot
+boxplot(x0, x1) #its hard to look at and there is a lot of squwee
+#one way to fix the squwee is to take the log
+boxplot(log10(x0), log10(x1))
+# the spread of the data increased but the mean decreased
+
+#it is a bit weird that there are negative value as there can not be a negative mass, we need to fix that
+summary(x1)
+negative <- x1 < 0
+str(negative)
+sum(negative, na.rm = TRUE) # there are 1145 that are negative
+mean(negative, na.rm = TRUE) # it is about 3.8% of the values (maybe there are negative values at certain times of the year)
+dates <- pm1$Date.Local
+asdates <- as.Date(dates, "%Y-%m-%d")
+str(asdates)
+hist(asdates, "month")
+hist(asdates[negative],"month")#maybe the negative values are a measurment error when values are low
+
+#something that would be interesting is rather than seeing the data for the entire contry, lets bring it down for particular location
+
+site0 <- unique(subset(pm0, State.Name == "Texas",c(County.Name,Site.Num)))
+site1 <- unique(subset(pm1, State.Name == "Texas",c(County.Name,Site.Num)))
+
+site0 <- paste(site0[,1], site0[,2], sep = ".")
+site1 <- paste(site1[,1], site1[,2], sep = ".")
+head(site1)
+
+#now we need to find out what State.Site combination is available in both sets. Lets use the intersect function for that
+both <- intersect(site0, site1)
+both
+# we are going to create a new variable
+pm0$county.site <- with(pm0, paste(County.Name, Site.Num, sep="."))
+pm1$county.site <- with(pm1, paste(County.Name, Site.Num, sep="."))
+
+pm1$county.site
+#now we want to subset the data only for texas
+cnt0 <- subset(pm0, State.Name == "Texas" & county.site %in% both)
+cnt1 <- subset(pm1, State.Name == "Texas"& county.site %in% both)
+
+head(cnt0)
+cnt1
+#lets find out the number of rows for each one of th emonitors
+sapply(split(cnt0, cnt0$county.site), nrow)
+sapply(split(cnt1, cnt1$county.site), nrow)
+
+#we will pick Harris.1035 because it has a good number of data to measure
+pm1sub <- subset(pm1, State.Name == "Texas" & County.Name =="Harris" & Site.Num == 1035)
+pm0sub <- subset(pm0, State.Name == "Texas" & County.Name =="Harris" & Site.Num == 1035)
+dim(pm0sub)
+
+#we will now make plots to visualize if it has hone down
+dates1 <- pm1sub$Date.Local
+x1sub <- pm1sub$Arithmetic.Mean
+dates1 <- as.Date(dates1, "%Y-%m-%d")
+plot(dates1, x1sub)
+
