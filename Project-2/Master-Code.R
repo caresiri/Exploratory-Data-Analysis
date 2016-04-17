@@ -19,11 +19,17 @@ head(SCC)
 
 #1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
 #Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
-
 Q1 <- with(NEI, tapply(Emissions, year, mean, na.rm =T))
 plot(c('1999','2002','2005','2008'), Q1)
-
 #Yes, total emmisions have decreased
+
+#2.Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (𝚏𝚒𝚙𝚜 == "𝟸𝟺𝟻𝟷𝟶") from 1999
+#to 2008? Use the base plotting system to make a plot answering this question.
+Q2 <- subset(NEI, fips == "24510")
+Q2.1 <- with(Q2, tapply(Emissions, year, mean, na.rm =T))
+plot(c('1999','2002','2005','2008'), Q2.1)
+#It has decreased from 1999 to 2008, with an increase from 2002 to 2005
+
 
 
 
