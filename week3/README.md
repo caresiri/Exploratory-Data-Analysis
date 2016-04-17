@@ -1,0 +1,2 @@
+Welcome to Week 3 of Exploratory Data Analysis. This week covers some of the workhorse statistical methods for exploratory analysis. These methods include clustering and dimension reduction techniques that allow you to make graphical displays of very high dimensional data (many many variables). We also cover novel ways to specify colors in R so that you can use color as an important and useful dimension when making data graphics. All of this material is covered in chapters 9-12 of my book Exploratory Data Analysis with R.
+
