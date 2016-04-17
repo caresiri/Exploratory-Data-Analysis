@@ -19,16 +19,19 @@ SCC <- readRDS("Source_Classification_Code.rds")
 #1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
 #Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
 
-Q1 <- with(NEI, tapply(Emissions, year, mean, na.rm =T))
-plot(c('1999','2002','2005','2008'), Q1)
-
+Q1 <- with(NEI, tapply(Emissions, year, sum, na.rm =T))
+barplot(Q1, main = " total PM2.5 emission", xlab="Years",ylab=" Total Amount of PM2.5 emitted (tons)" )
+dev.copy(png, file = "Plot1.png")
+dev.off()
 #Yes, total emmisions have decreased
 
 #2.Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (𝚏𝚒𝚙𝚜 == "𝟸𝟺𝟻𝟷𝟶") from 1999
 #to 2008? Use the base plotting system to make a plot answering this question.
 Q2 <- subset(NEI, fips == "24510")
-Q2.1 <- with(Q2, tapply(Emissions, year, mean, na.rm =T))
-plot(c('1999','2002','2005','2008'), Q2.1)
+Q2.1 <- with(Q2, tapply(Emissions, year, sum, na.rm =T))
+barplot(Q2.1, main = " total PM2.5 emission for Baltimore City", xlab="Years",ylab=" Total Amount of PM2.5 emitted (tons)" )
+dev.copy(png, file = "Plot2.png")
+dev.off()
 #It has decreased from 1999 to 2008, with an increase from 2002 to 2005
 
 #3. Of the four types of sources indicated by the 𝚝𝚢𝚙𝚎 (point, nonpoint, onroad, nonroad)
@@ -82,6 +85,4 @@ g<- ggplot(Car2,  aes(year, Emissions))+labs(title = "Comparison Vehicles Emissi
   ylab("Amount of emissions")
 plot6<- g + geom_bar(stat="identity", fill ="brown") + facet_grid(.~fips)
 print(plot6)
-
-
 
