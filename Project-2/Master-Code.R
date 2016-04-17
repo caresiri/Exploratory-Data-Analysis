@@ -24,3 +24,6 @@ Q1 <- with(NEI, tapply(Emissions, year, mean, na.rm =T))
 plot(c('1999','2002','2005','2008'), Q1)
 
 #Yes, total emmisions have decreased
+
+
+
