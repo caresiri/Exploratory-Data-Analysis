@@ -1,3 +1,4 @@
+
 #Are air pollution levels lower than they were before
 #Website: https://www3.epa.gov/ttn/airs/airsaqs/detaildata/downloadaqsdata.htm
 setwd("./Desktop") 
@@ -39,17 +40,19 @@ dev.off()
 #Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to make a plot answer this question.
 #geom_point(aes(color = bmicat), size = 4, alpha = 1/2)
 library(ggplot2)
-library(plyr)
-Q3 <- subset(NEI, fips == "24510")
-Q3.1 <- ddply(Q3, .(year, type), function(x) sum(x$Emissions))
-colnames(Q3.1)[3] <- "Emissions"
-qplot(year, Emissions, data = Q3.1, color = type, geom = "line") +
-  ggtitle(expression("Baltimore City" ~ PM[2.5] ~ 
-                       "Emissions by Source Type and Year")) + xlab("Year") +
-  ylab(expression("Total" ~ PM[2.5] ~ "Emissions (tons)"))
+library(dplyr)
+
+Q3<- filter(NEI, fips == "24510" )
+Q3.1<- ggplot(Q3, aes(year, Emissions))+
+  labs(title="Fine Particulate Emissions \n Baltimore City, Maryland \n")+
+  xlab("") + ylab("Amount of PM2.5 emitted, in tons")+scale_size_identity(0.1)
+plot3<- Q3.1 + geom_bar(stat="identity", fill="blue") +facet_grid(.~type) 
+print(plot3)
+dev.copy(png, file = "Plot3.png")
+dev.off()
 
 
-#Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
+#4. Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
 Mrg<- merge(NEI,SCC, by="SCC")
 coal <- filter ( Mrg, grepl("Coal", EI.Sector))
 g<- ggplot(coal, aes(year, Emissions))+
@@ -59,7 +62,7 @@ plot4<- g + geom_bar(stat="identity", fill ="brown")
 print(plot4)
 
 
-#How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
+#5. How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
 
 baltimore<- filter(Mrg, fips == "24510" )
 VON<- filter(baltimore, type == "ON-ROAD"  )
@@ -71,7 +74,7 @@ g
 plot5<- g + geom_bar(stat="identity", fill="purple")
 print(plot5)
 
-#Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, 
+#6. Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, 
 #California (fips == “06037”). Which city has seen greater changes over time in motor vehicle emissions?
 
 
@@ -85,4 +88,3 @@ g<- ggplot(Car2,  aes(year, Emissions))+labs(title = "Comparison Vehicles Emissi
   ylab("Amount of emissions")
 plot6<- g + geom_bar(stat="identity", fill ="brown") + facet_grid(.~fips)
 print(plot6)
-
